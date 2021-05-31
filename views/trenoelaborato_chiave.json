@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "trenoelaborato",
+  "private_key_id": "cfba49e1d435536cba44f0241fa10aee9d066ac6",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDAzCDVQIrqyL3R\nqAltPwFF6hOL5Bz6NqzH9pvGqfD0DXSQVupjTYyUNp9NR6bvAB4GXO9Y08kNf3/K\nrZgQyVsYCvSA5A2qw72+awnP4VGkYWNL5dRotKvZex2MxUJg32U4qxMEut60hXkA\ntErMEVxbNZhxRwPXxjhXCLa1WTXPJuctEsY0HoBK2VgzHVm5KpGMZWocIn0mGI9i\na8XAcj7XSkXO5aV9fwaGIGF6FegjsX7aSFMwXF4Gj5OXVDNvrZAivhKTYuVDKCTc\nHi0LNko6taRExb4NlBdQ2v7ihY2D4ToqvNQ3+5vAV/aIG5G/mbqLCsTTmlfgEPwQ\nPHBrL1GzAgMBAAECggEAHFKAakNyhN4bgH6ib+GHEtm5qF3I4fsBM9jm9m7FnlyR\nqJiUEyVzxtwlV8l0XPzT7FRfttlZ2jlGMSSCR8kEsEn/tCWMWm8p4xy/UsIDZ9YE\nq8QmCYGtEyRSaXka8Lcwm/wJrbKz/6nx5igWKtdMDXwYml930Y1lfmehy49A597K\nLMzpi/BEwfLfvC4LUo32nkw7MAxYod9/2SqGQVLYVJohKkr+lQOpUprrG7zT/9xg\nElx2ZmtQ4HGrFRPWu9VsF4PFGCy8MYp4q5tCUTq9+nqO1EvrkfRCoN0SJFESHfs5\nVln7BOJhgNVGcfcjlzppQ7qO1nv4yVQTLBeNqu68sQKBgQDxXKXYp2bkWCD1Q0S7\n4LPFiqdtXnbhQd2jdNrG2PS8h4nbhej6JSjqqhE0bf6JcrxqX3fbrPzawgxS1b9V\namKvty2fsJrN1NEU3blSqgi1sc65t2ykTXTVe0QKORltDpIp/UUWhcehNg3Hwk7+\nyZ6xDTh1ewKoUhZWdu5wOe2e0QKBgQDMfXlgWEW665criL9UNr8Qta8cOtuFLWrA\ng71WZBqdaJ1jbUP2Ndr1k1Pu7XzAzh39w+JUJqVzgX8vFIvD2d22GmMb7FGe/s1H\nOFmN2jrNr2dyTO0KVNIW38S+kQGzORy4CplhpLYFwXUoqeqvsgdPDGrzb1Ub+Cib\nyFLwjrzxQwKBgGtayDGrk+pxAIfW2dWvRobQ+1N8NuhOgaTYrw7PJVxN9RV9ZHkO\n2jo2Vty5KAQ+0muF9yvwr68lrJGTnT0Cys5ZbaOfy9tNk4nybSHFm4Ylhku4uEwE\nX7ks0MCzUQne90hR7M7txjOAdXSqirRtPXaG6NvoUPBJQsJGuBuWyIhhAoGADFP4\nME3CDm3LlE1PM5WFWU2KvAn0WAgP6oFGteGdFSZMbsUUltBSXgG+yqW4oqsKddUM\nXQRjbx48e6sibfFBg4v9s55AoXQ9DfEgvQOODf5oHyTyGXBZphVheBen4ZUs3Q+O\nhat3actq88OiqWrzM9nMzNZGbEQ+tn2SOnxweZ8CgYB00QvpoA8MAsb5htlBxk+s\n6EUf5BULQHZ8C8vSKm6lRwXhcW61NL7a9w20AAW0gl3g/PhnVmeyMfuv/I899+Wk\nmAQjblB8PoAvcjkx453yXlgu3vqDoSZOUyFuDXXm2VAj4k/Pf9zSu3WWMmVKzLS/\nZiHdkaxDkIeaxaTaumaHkw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-ipcvd@trenoelaborato.iam.gserviceaccount.com",
+  "client_id": "113010572477461064430",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-ipcvd%40trenoelaborato.iam.gserviceaccount.com"
+}

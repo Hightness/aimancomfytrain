@@ -1,0 +1,46 @@
+<%- include("partials/header"); -%>
+    <div class="limiter">
+
+      <div class="container-login100">
+        <div class="wrap-login100">
+          <div class="login100-pic js-tilt" data-tilt>
+            <img src="images/img-01.png" alt="IMG">
+          </div>
+
+          <form action="/home" method="post" class="login100-form validate-form">
+            <span class="login100-form-title">
+              <label id="prova" value="dslfj">
+              Inserisci informazioni richieste
+            </span>
+
+              <div class="wrap-input100 validate-input" data-validate = "Immetti una destinazione">
+              <% if(citta.length != 0){ %>
+                <%- include("ricercatore",{nome:"destinazione",citta:citta}); -%>
+              <% } %>
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="fa fa-users" aria-hidden="true"></i>
+              </span>
+            </div>
+
+                    <div class="wrap-input100 validate-input" data-validate = "Immetti una città di partenza">
+              <%- include("ricercatore",{nome:"partenza",citta:citta}); -%>
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="fa fa-users" aria-hidden="true"></i>
+              </span>
+            </div>
+
+            <div class="wrap-input100 validate-input" data-validate = "Inserisci la data">
+              <input class="input100" type="text" name="data" placeholder="Data">
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="fa fa-users" aria-hidden="true"></i>
+              </span>
+            </div>
+
+            <div class="container-login100-form-btn">
+              <button type="submit" class="login100-form-btn">Cerca</button>
+            </div>
+          </form>
+<%- include("partials/footer"); -%>
