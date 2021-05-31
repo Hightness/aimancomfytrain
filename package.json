@@ -1,0 +1,29 @@
+{
+  "name": "progetto-nuovo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "ajax": "0.0.4",
+    "all": "0.0.0",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "firebase": "^8.6.2",
+    "firebase-admin": "^9.8.0",
+    "fs": "0.0.1-security",
+    "md5": "^2.3.0",
+    "mongoose": "^5.11.15",
+    "nodemon": "^2.0.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aiman Rattab",
+  "license": "ISC",
+  "engines": {
+    "node": "14.15.4"
+  }
+}
