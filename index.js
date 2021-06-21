@@ -11,7 +11,9 @@ const salvaId = require(__dirname + "/salvaId.js");
 const id = require(__dirname + "/views/ultimiId.json");
 const def = require(__dirname + "/impostaDefault.js");
 const treno = require(__dirname + "/accessoDatabase.js");
-var utente_entrato = false;
+//const session = require('express-session');
+
+var utente_entrato;
 var tratte_ids = [],
   postiDisponibili = [];
 app.set('views', __dirname + "\\views");
@@ -20,6 +22,11 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(express.static("public"));
+// app.use(session({
+//   secret: "segreto a caso.",
+//   resave: false,
+//   saveUninitialized: false
+// }));
 //exports.app = functions.https.onRequest(app);
 treno.inizializza();
 var citta = [];
@@ -44,22 +51,6 @@ function PopolaLuoghi(citta) {
   }
   luoghi_JSON = JSON.parse(luoghi_str); // convert string to json object
 }
-
-
-treno.db().collection('tratte').get().then((snapshot) => {
-  snapshot.docs.forEach(doc => {
-    console.log(doc.data().data.toDate());
-  })
-})
-//def.salvaDati();
-// treno.db().collection('utenti').get().then((snapshot) => {
-//   snapshot.docs.forEach(doc => {
-//     console.log(doc.data());
-//     console.log(doc.id);
-//   })
-// });
-
-//sexports.login = functions
 app.get("/", function(req, res) {
   res.render("login", {
     user: ""
@@ -74,6 +65,7 @@ app.route("/login")
         if (doc.data().email == req.body.email) {
           console.log(citta);
           if (md5(req.body.pass) == doc.data().password) {
+            //req.session.email = doc.data().email;
             utente_entrato = {
               nome: doc.data().nome,
               cognome: doc.data().cognome,
@@ -127,6 +119,7 @@ app.route("/register")
       password: md5(req.body.password),
       email: req.body.email
     };
+    console.log(utente1);
     treno.db().collection('utenti').get().then((snapshot) => {
       var cont = 0;
       var lunghezza_doc = snapshot.docs.length;
@@ -150,37 +143,38 @@ app.route("/register")
           i2: "partenza",
           i3: "datetime-local"
         });
+      } else {
+        snapshot.docs.forEach(doc => {
+          cont += 1;
+          console.log(cont.toString());
+          if (doc.data().email == utente1.email) {
+            res.render("login", {
+              user: utente1.email
+            });
+          } else if (cont == lunghezza_doc) {
+            treno.db().collection("utenti").doc(id.utenti.toString()).set(utente1);
+            utente_entrato = {
+              nome: req.body.nome,
+              cognome: req.body.cognome,
+              residenza: req.body.residenza,
+              password: md5(req.body.password),
+              email: req.body.email,
+              id: id.utenti.toString()
+            };
+            salvaId.incUtenti();
+            res.render("home", {
+              luoghi: luoghi_str,
+              posti: "",
+              i1: "destinazione",
+              nome: utente_entrato.nome,
+              p: "home",
+              i2: "partenza",
+              i3: "datetime-local"
+            });
+          }
+        })
       }
-      snapshot.docs.forEach(doc => {
-        cont += 1;
-        console.log(cont.toString());
-        if (doc.data().email == utente1.email) {
-          res.render("login", {
-            user: utente1.email
-          });
-        } else if (cont == lunghezza_doc) {
-          treno.db().collection("utenti").doc(id.utenti.toString()).set(utente1);
-          utente_entrato = {
-            nome: req.body.nome,
-            cognome: req.body.cognome,
-            residenza: req.body.residenza,
-            password: md5(req.body.password),
-            email: req.body.email,
-            id: id.utenti.toString()
-          };
-          salvaId.incUtenti();
-          res.render("home", {
-            luoghi: luoghi_str,
-            posti: "",
-            i1: "destinazione",
-            nome: utente_entrato.nome,
-            p: "home",
-            i2: "partenza",
-            i3: "datetime-local"
-          });
-        }
-      })
-    });
+    })
   });
 app.route("/home")
   .get(function(req, res) {
@@ -332,9 +326,9 @@ app.route("/home")
                     //#endregion
                     console.log("fine !!!!");
                     for (i = 0; i < postiDisponibili.length; i++) {
-                      console.log(postiDisponibili[i].id+": num_posto: "+
-                                  postiDisponibili[i].data().num_posto+
-                                  ": num_carrozza: "+postiDisponibili[i].data().num_carrozza);
+                      console.log(postiDisponibili[i].id + ": num_posto: " +
+                        postiDisponibili[i].data().num_posto +
+                        ": num_carrozza: " + postiDisponibili[i].data().num_carrozza);
                     }
                     var posti_str = JSON.stringify(Object.assign({}, postiDisponibili)); // convert array to string
                     res.render("home", {
