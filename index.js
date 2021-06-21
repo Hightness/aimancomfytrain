@@ -11,9 +11,7 @@ const salvaId = require(__dirname + "/salvaId.js");
 const id = require(__dirname + "/views/ultimiId.json");
 const def = require(__dirname + "/impostaDefault.js");
 const treno = require(__dirname + "/accessoDatabase.js");
-//const session = require('express-session');
-
-var utente_entrato;
+const session = require('express-session');
 var tratte_ids = [],
   postiDisponibili = [];
 app.set('views', __dirname + "\\views");
@@ -22,12 +20,11 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(express.static("public"));
-// app.use(session({
-//   secret: "segreto a caso.",
-//   resave: false,
-//   saveUninitialized: false
-// }));
-//exports.app = functions.https.onRequest(app);
+app.use(session({
+  secret: "segreto a caso.",
+  resave: false,
+  saveUninitialized: false
+}));
 treno.inizializza();
 var citta = [];
 var i, luoghi_str, luoghi_JSON;
@@ -65,19 +62,16 @@ app.route("/login")
         if (doc.data().email == req.body.email) {
           console.log(citta);
           if (md5(req.body.pass) == doc.data().password) {
-            //req.session.email = doc.data().email;
-            utente_entrato = {
-              nome: doc.data().nome,
-              cognome: doc.data().cognome,
-              residenza: doc.data().residenza,
-              password: doc.data().password,
-              email: doc.data().email,
-              id: doc.id
-            };
-            console.log(utente_entrato);
+            req.session.email = doc.data().email;
+            req.session.nome = doc.data().nome;
+            req.session.cognome = doc.data().cognome;
+            req.session.residenza = doc.data().residenza;
+            req.session.password = doc.data().password;
+            req.session.id = doc.id;
+            req.session.entrato = true;
             res.render("home", {
               luoghi: luoghi_str,
-              nome: utente_entrato.nome,
+              nome: req.session.nome,
               p: "home",
               posti: "",
               i1: "destinazione",
@@ -125,20 +119,19 @@ app.route("/register")
       var lunghezza_doc = snapshot.docs.length;
       if (lunghezza_doc == 0) {
         treno.db().collection("utenti").doc(id.utenti.toString()).set(utente1);
-        utente_entrato = {
-          nome: req.body.nome,
-          cognome: req.body.cognome,
-          residenza: req.body.residenza,
-          password: md5(req.body.password),
-          email: req.body.email,
-          id: id.utenti.toString()
-        };
+        req.session.email = req.body.email;
+        req.session.nome = req.body.nome;
+        req.session.cognome = req.body.cognome;
+        req.session.residenza = req.body.residenza;
+        req.session.password = md5(req.body.password);
+        req.session.id = id.utenti.toString();
+        req.session.entrato = true;
         salvaId.incUtenti();
         res.render("home", {
           luoghi: luoghi_str,
           posti: "",
           i1: "destinazione",
-          nome: utente_entrato.nome,
+          nome: req.session.nome,
           p: "home",
           i2: "partenza",
           i3: "datetime-local"
@@ -153,20 +146,19 @@ app.route("/register")
             });
           } else if (cont == lunghezza_doc) {
             treno.db().collection("utenti").doc(id.utenti.toString()).set(utente1);
-            utente_entrato = {
-              nome: req.body.nome,
-              cognome: req.body.cognome,
-              residenza: req.body.residenza,
-              password: md5(req.body.password),
-              email: req.body.email,
-              id: id.utenti.toString()
-            };
+            req.session.email = req.body.email;
+            req.session.nome = req.body.nome;
+            req.session.cognome = req.body.cognome;
+            req.session.residenza = req.body.residenza;
+            req.session.password = md5(req.body.password);
+            req.session.id = id.utenti.toString();
+            req.session.entrato = true;
             salvaId.incUtenti();
             res.render("home", {
               luoghi: luoghi_str,
               posti: "",
               i1: "destinazione",
-              nome: utente_entrato.nome,
+              nome: req.session.nome,
               p: "home",
               i2: "partenza",
               i3: "datetime-local"
@@ -178,7 +170,7 @@ app.route("/register")
   });
 app.route("/home")
   .get(function(req, res) {
-    if (!utente_entrato) {
+    if (!req.session.entrato) {
       res.render("login", {
         user: "",
         passwd: ""
@@ -188,7 +180,7 @@ app.route("/home")
         luoghi: luoghi_str,
         posti: "",
         i1: "destinazione",
-        nome: utente_entrato.nome,
+        nome: req.session.nome,
         i2: "partenza",
         p: "home",
         i3: "datetime-local"
@@ -277,7 +269,7 @@ app.route("/home")
               res.render("home", {
                 luoghi: luoghi_str,
                 p: "home",
-                nome: utente_entrato.nome,
+                nome: req.session.nome,
                 posti: "",
                 i1: "destinazione",
                 i2: "partenza",
@@ -334,7 +326,7 @@ app.route("/home")
                     res.render("home", {
                       luoghi: luoghi_str,
                       p: "inserimento",
-                      nome: utente_entrato.nome,
+                      nome: req.session.nome,
                       posti: posti_str,
                       i1: "Num_vagone",
                       i2: "Num_posto",
@@ -371,7 +363,7 @@ app.post("/inserimento", function(req, res) {
     var id_pren = id.prenotazioni.toString();
     treno.db().collection("prenotazioni").doc(id_pren).set({
       ek_p: postoFinale,
-      ek_u: utente_entrato.id
+      ek_u: req.session.id
     });
 
     for (i = 0; i < tratte_ids.length; i++) {
