@@ -248,17 +248,21 @@ app.route("/home")
               if (start && snapshot.docs[i].data().ek_treno == id_treno) {
                 //non salvo la tratta destinazione, poichè l'utente scenderà in quella fermata.
                 if (snapshot.docs[i].data().ek_luogo == id_dest) {
+                  console.log(snapshot.docs[i].data().ek_luogo);
                   console.log("il percorso esiste, salvo tutti le tratte in mezzo..");
                   inaccessibile = false;
                   break;
                 }
                 //controllo ogni tratta e mi salvo tutte le tratte in mezzo per cui passa il treno
-                console.log(snapshot.docs[i].data().ek_treno + ", ");
+                console.log(snapshot.docs[i].data().ek_luogo);
                 tratte_ids.push(snapshot.docs[i].id);
               } else {
                 start = (snapshot.docs[i].data().ek_luogo == id_partenza && snapshot.docs[i].data().ek_treno == id_treno) || start;
                 //salvo nell'array anche la tratta della partenza (rendendola quindi occupata)
-                if (start) tratte_ids.push(snapshot.docs[i].id);
+                if (start){
+                  console.log(snapshot.docs[i].data().ek_luogo);
+                  tratte_ids.push(snapshot.docs[i].id);
+                }
               }
             }
             //#endregion
@@ -294,10 +298,9 @@ app.route("/home")
                 treno.db().collection('prenotazioni').get().then((snapshot) => {
 
                   //#region salvo in posti tutti i posti occupati dalle prenotazioni in prenotazioni_ids
-                  console.log("elenco tutti gli id dei posti già occupati: ");
+
                   for (i = 0; i < snapshot.docs.length; i++) {
                     if (prenotazioni_ids.includes(snapshot.docs[i].id)) {
-                      console.log(snapshot.docs[i].data().ek_p);
                       //salvo tutti gli id dei posti prenotati nelle prenotazioni salvate in precedenza
                       posti.push(snapshot.docs[i].data().ek_p);
                     }
@@ -308,15 +311,20 @@ app.route("/home")
                   treno.db().collection('posti').get().then((snapshot) => {
 
                     //#region salvo in postiDisponibili tutti i posti non presenti in posti (quelli liberi)
+                    console.log("elenco tutti gli id dei posti già occupati: ");
                     for (i = 0; i < snapshot.docs.length; i++) {
                       if (!posti.includes(snapshot.docs[i].id) && id_treno == snapshot.docs[i].data().ek_t) {
                         //visualizza tutti i posti disponibili per quel viaggio, in quel determinato treno
                         //console.log(snapshot.docs[i].data().ek_posti + ", ");
                         postiDisponibili.push(snapshot.docs[i]);
+                      }else{
+                        console.log(snapshot.docs[i].id + ": num_posto: " +
+                          snapshot.docs[i].data().num_posto +
+                          ": num_carrozza: " + snapshot.docs[i].data().num_carrozza);
                       }
                     }
                     //#endregion
-                    console.log("fine !!!!");
+                    console.log("elenco posti disponibili: ");
                     for (i = 0; i < postiDisponibili.length; i++) {
                       console.log(postiDisponibili[i].id + ": num_posto: " +
                         postiDisponibili[i].data().num_posto +
